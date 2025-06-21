@@ -5,9 +5,6 @@ import pandas as pd
 
 st.title('Options PnL Calculator')
 
-import streamlit as st
-import pandas as pd
-
 # Таблица стратегий
 strategy_data = pd.DataFrame([
     {
@@ -16,7 +13,7 @@ strategy_data = pd.DataFrame([
         "Когда использовать": "Хочешь заработать на росте, но ограничить риск премией",
         "Макс. профит": "Неограничен",
         "Макс. убыток": "Премия",
-        "Характеристика": "Направленная, леверидж без ликвидации"
+        "Характеристика": "Направленная, без ликвидации"
     },
     {
         "Стратегия": "Short Call",
@@ -44,18 +41,31 @@ strategy_data = pd.DataFrame([
     }
 ])
 
-st.title("📊 Таблица опционных стратегий")
-st.dataframe(strategy_data, use_container_width=True)
+with st.expander("Показать таблицу стратегий"):
+    st.dataframe(strategy_data, use_container_width=True)
 
 
 # Ввод параметров опциона
 option_type = st.selectbox('Option Type', ['Long Call', 'Short Call', 'Long Put', 'Short Put'])
-strike_price = st.number_input('Strike Price', value=100000)
-current_price = st.number_input('Current Price', value=104000)
-premium = st.number_input('Premium Paid/Received', value=2000)
-price_min = st.number_input('Min Underlying Price', value=88000)
-price_max = st.number_input('Max Underlying Price', value=114000)
-steps = st.slider('Steps', min_value=100, max_value=1000, value=500)
+strike_price = st.number_input('Strike Price', value=None)
+current_price = st.number_input('Current Price', value=None)
+premium = st.number_input('Premium Paid/Received', value=None)
+low = min(strike, current_price)
+high = max(strike, current_price)
+
+# логика по типу опциона
+if "Call" in option_type:
+    price_min = int(low * 0.9)
+    price_max = int(high * 1.5)
+elif "Put" in option_type:
+    price_min = int(low * 0.5)
+    price_max = int(high * 1.1)
+else:
+    price_min = int(low * 0.75)
+    price_max = int(high * 1.25)
+
+st.markdown(f"📉 Диапазон цены: от {price_min} до {price_max}")
+steps = 500
 
 # Диапазон цен
 price_range = np.linspace(price_min, price_max, steps)
