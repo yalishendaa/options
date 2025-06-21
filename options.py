@@ -173,3 +173,5 @@ if st.button("🧮 Рассчитать PnL"):
             annotation_text="Loss Zone",
             annotation_position="top left"
         )
+
+    st.plotly_chart(fig, use_container_width=True)
