@@ -30,26 +30,26 @@ iv = st.slider('Implied Volatility (IV %)', 1, 300, 80) / 100
 
 with st.expander("Что такое Implied Volatility (IV)?"):
     st.markdown("""
-**Как использовать IV**  
-– IV влияет на то, **сколько стоит опцион до экспирации**  
-– чем выше IV — тем **дороже опцион**, потому что больше шансов, что он “сыграет”  
+Как использовать IV
+– IV влияет на то, сколько стоит опцион до экспирации
+– чем выше IV — тем дороже опцион, потому что больше шансов, что он “сыграет”  
 – для графика: при высоком IV линия "PnL today" будет выше, при низком — ближе к "PnL at expiry"
 
 ---
 
-**Откуда взять IV**  
-1. **На биржах**  
+Откуда взять IV
+1. На биржах
    – на CEX типа Bybit, Deribit есть IV для каждого страйка  
    – можно просто взять среднее значение 
 
-2. **Если IV нет – оринтировочно:**  
+2. Если IV нет – оринтировочно:
    – BTC/ETH: ~50–80% в спокойном рынке, ~100–150% в новостях  
    – альткойны: часто 150–200%  
    – meme/low cap: можно смело ставить 200–300%+
 
 ---
 
-**Пример**  
+Пример 
 – цена ETH: $2400  
 – берется call со страйком $2600  
 – если IV низкий (например 40%) — опцион почти ничего не стоит  
@@ -114,37 +114,62 @@ if st.button("🧮 Рассчитать PnL"):
         hovermode='x unified'
     )
 
-    # Цветовые зоны
+        # Цветовые зоны
     break_even = strike_price + premium if 'Call' in option_type else strike_price - premium
 
-    fig.add_vrect(
-        x0=break_even,
-        x1=price_max,
-        fillcolor="green",
-        opacity=0.1,
-        line_width=0,
-        annotation_text="Profit Zone",
-        annotation_position="top left"
-    )
-
-    fig.add_vrect(
-        x0=strike_price - premium if 'Call' in option_type else break_even,
-        x1=break_even if 'Call' in option_type else strike_price + premium,
-        fillcolor="yellow",
-        opacity=0.1,
-        line_width=0,
-        annotation_text="Breakeven Zone",
-        annotation_position="top left"
-    )
-
-    fig.add_vrect(
-        x0=price_min,
-        x1=strike_price - premium if 'Call' in option_type else break_even,
-        fillcolor="red",
-        opacity=0.1,
-        line_width=0,
-        annotation_text="Loss Zone",
-        annotation_position="top left"
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
+    if 'Call' in option_type:
+        fig.add_vrect(
+            x0=break_even,
+            x1=price_max,
+            fillcolor="green",
+            opacity=0.1,
+            line_width=0,
+            annotation_text="Profit Zone",
+            annotation_position="top left"
+        )
+        fig.add_vrect(
+            x0=strike_price - premium,
+            x1=break_even,
+            fillcolor="yellow",
+            opacity=0.1,
+            line_width=0,
+            annotation_text="Breakeven Zone",
+            annotation_position="top left"
+        )
+        fig.add_vrect(
+            x0=price_min,
+            x1=strike_price - premium,
+            fillcolor="red",
+            opacity=0.1,
+            line_width=0,
+            annotation_text="Loss Zone",
+            annotation_position="top left"
+        )
+    else:
+        fig.add_vrect(
+            x0=price_min,
+            x1=break_even,
+            fillcolor="green",
+            opacity=0.1,
+            line_width=0,
+            annotation_text="Profit Zone",
+            annotation_position="top left"
+        )
+        fig.add_vrect(
+            x0=break_even,
+            x1=strike_price + premium,
+            fillcolor="yellow",
+            opacity=0.1,
+            line_width=0,
+            annotation_text="Breakeven Zone",
+            annotation_position="top left"
+        )
+        fig.add_vrect(
+            x0=strike_price + premium,
+            x1=price_max,
+            fillcolor="red",
+            opacity=0.1,
+            line_width=0,
+            annotation_text="Loss Zone",
+            annotation_position="top left"
+        )
