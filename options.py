@@ -4,6 +4,14 @@ import plotly.graph_objects as go
 
 st.title('Options PnL Calculator')
 
+# Таблица с описанием типов опционов
+option_data = pd.DataFrame({
+    "Тип": ["Long Call", "Short Call", "Long Put", "Short Put"],
+    "Ожидаешь": ["рост", "не расти", "падение", "не падать"],
+    "Потенциал": ["неограничен", "премия", "высокий", "премия"],
+    "Риск": ["премия", "неограничен", "премия", "большой"]
+})
+
 # Ввод параметров опциона
 option_type = st.selectbox('Option Type', ['Long Call', 'Short Call', 'Long Put', 'Short Put'])
 strike_price = st.number_input('Strike Price', value=100000)
