@@ -47,9 +47,9 @@ with st.expander("Показать таблицу стратегий"):
 
 # Ввод параметров опциона
 option_type = st.selectbox('Option Type', ['Long Call', 'Short Call', 'Long Put', 'Short Put'])
-strike_price = st.number_input('Strike Price', value=None)
-current_price = st.number_input('Current Price', value=None)
-premium = st.number_input('Premium Paid/Received', value=None)
+strike_price = st.number_input('Strike Price', value=0)
+current_price = st.number_input('Current Price', value=0)
+premium = st.number_input('Premium Paid/Received', value=0)
 low = min(strike_price, current_price)
 high = max(strike_price, current_price)
 
