@@ -114,10 +114,9 @@ if st.button("🧮 Рассчитать PnL"):
         hovermode='x unified'
     )
 
-    # Расчёт break-even
+ # Цветовые зоны
 break_even = strike_price + premium if 'Call' in option_type else strike_price - premium
 
-# Добавление цветовых зон
 fig.add_vrect(
     x0=break_even,
     x1=price_max,
@@ -127,6 +126,7 @@ fig.add_vrect(
     annotation_text="Profit Zone",
     annotation_position="top left"
 )
+
 fig.add_vrect(
     x0=strike_price - premium if 'Call' in option_type else break_even,
     x1=break_even if 'Call' in option_type else strike_price + premium,
@@ -136,6 +136,7 @@ fig.add_vrect(
     annotation_text="Breakeven Zone",
     annotation_position="top left"
 )
+
 fig.add_vrect(
     x0=price_min,
     x1=strike_price - premium if 'Call' in option_type else break_even,
@@ -146,5 +147,12 @@ fig.add_vrect(
     annotation_position="top left"
 )
 
-    
-    st.plotly_chart(fig, use_container_width=True)
+fig.update_layout(
+    title=f'{option_type} – PnL Curve',
+    xaxis_title='Underlying Price',
+    yaxis_title='Profit / Loss',
+    template='plotly_dark',
+    hovermode='x unified'
+)
+
+st.plotly_chart(fig, use_container_width=True)
