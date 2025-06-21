@@ -117,34 +117,34 @@ if st.button("🧮 Рассчитать PnL"):
     # Расчёт break-even
 break_even = strike_price + premium if 'Call' in option_type else strike_price - premium
 
-    # Добавление цветовых зон
-    fig.add_vrect(
-        x0=break_even,
-        x1=price_max,
-        fillcolor="green",
-        opacity=0.1,
-        line_width=0,
-        annotation_text="Profit Zone",
-        annotation_position="top left"
-    )
-    fig.add_vrect(
-        x0=strike_price - premium if 'Call' in option_type else break_even,
-        x1=break_even if 'Call' in option_type else strike_price + premium,
-        fillcolor="yellow",
-        opacity=0.1,
-        line_width=0,
-        annotation_text="Breakeven Zone",
-        annotation_position="top left"
-    )
-    fig.add_vrect(
-        x0=price_min,
-        x1=strike_price - premium if 'Call' in option_type else break_even,
-        fillcolor="red",
-        opacity=0.1,
-        line_width=0,
-        annotation_text="Loss Zone",
-        annotation_position="top left"
-    )
+# Добавление цветовых зон
+fig.add_vrect(
+    x0=break_even,
+    x1=price_max,
+    fillcolor="green",
+    opacity=0.1,
+    line_width=0,
+    annotation_text="Profit Zone",
+    annotation_position="top left"
+)
+fig.add_vrect(
+    x0=strike_price - premium if 'Call' in option_type else break_even,
+    x1=break_even if 'Call' in option_type else strike_price + premium,
+    fillcolor="yellow",
+    opacity=0.1,
+    line_width=0,
+    annotation_text="Breakeven Zone",
+    annotation_position="top left"
+)
+fig.add_vrect(
+    x0=price_min,
+    x1=strike_price - premium if 'Call' in option_type else break_even,
+    fillcolor="red",
+    opacity=0.1,
+    line_width=0,
+    annotation_text="Loss Zone",
+    annotation_position="top left"
+)
 
     
     st.plotly_chart(fig, use_container_width=True)
