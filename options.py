@@ -1,45 +1,48 @@
-# filename: option_pnl_viewer.py
-
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
-st.set_page_config(page_title="Option PnL Viewer", layout="centered")
-st.title("📊 Single Option P&L Viewer")
+st.title('Options PnL Calculator')
 
-st.markdown("Посмотри, как меняется P&L от цены базового актива при экспирации")
+# Ввод параметров опциона
+option_type = st.selectbox('Option Type', ['Long Call', 'Short Call', 'Long Put', 'Short Put'])
+strike_price = st.number_input('Strike Price', value=100000)
+current_price = st.number_input('Current Price', value=104000)
+premium = st.number_input('Premium Paid/Received', value=2000)
+price_min = st.number_input('Min Underlying Price', value=88000)
+price_max = st.number_input('Max Underlying Price', value=114000)
+steps = st.slider('Steps', min_value=100, max_value=1000, value=500)
 
-# Параметры
-option_type = st.selectbox("Option Type", ["Call", "Put"])
-position_type = st.selectbox("Position", ["Long", "Short"])
-strike = st.number_input("Strike Price", value=100000.0, step=100.0)
-premium = st.number_input("Premium (paid/received)", value=2000.0, step=100.0)
-underlying = st.number_input("Current Underlying Price", value=104000.0, step=100.0)
+# Диапазон цен
+price_range = np.linspace(price_min, price_max, steps)
 
-# Расчёт
-price_range = np.linspace(underlying * 0.85, underlying * 1.15, 500)
+# Расчет PnL
+if option_type == 'Long Call':
+    payoff = np.maximum(price_range - strike_price, 0)
+    pnl = payoff - premium
+elif option_type == 'Short Call':
+    payoff = np.maximum(price_range - strike_price, 0)
+    pnl = premium - payoff
+elif option_type == 'Long Put':
+    payoff = np.maximum(strike_price - price_range, 0)
+    pnl = payoff - premium
+elif option_type == 'Short Put':
+    payoff = np.maximum(strike_price - price_range, 0)
+    pnl = premium - payoff
 
-if option_type == "Call":
-    intrinsic = np.maximum(price_range - strike, 0)
-else:
-    intrinsic = np.maximum(strike - price_range, 0)
+# Построение графика
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=price_range, y=pnl, mode='lines', name='P&L'))
 
-if position_type == "Long":
-    pnl = intrinsic - premium
-else:
-    pnl = premium - intrinsic
+fig.add_vline(x=strike_price, line=dict(color='gray', dash='dash'), annotation_text='Strike Price')
+fig.add_vline(x=current_price, line=dict(color='green', dash='dash'), annotation_text='Current Price')
 
-# График
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(price_range, pnl, label="P&L at Expiry", color="blue")
-ax.axhline(0, color="red", linestyle="--", linewidth=1)
-ax.axvline(strike, color="gray", linestyle="--", label="Strike")
-ax.axvline(underlying, color="green", linestyle="--", label="Current Price")
+fig.update_layout(
+    title=f'{option_type} – Payoff at Expiry',
+    xaxis_title='Underlying Price at Expiry',
+    yaxis_title='Profit / Loss',
+    template='plotly_dark',
+    hovermode='x unified'
+)
 
-ax.set_title(f"{position_type} {option_type} Option – Payoff at Expiry")
-ax.set_xlabel("Underlying Price at Expiry")
-ax.set_ylabel("Profit / Loss")
-ax.legend()
-ax.grid(True)
-
-st.pyplot(fig)
+st.plotly_chart(fig)
