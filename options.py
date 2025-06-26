@@ -22,14 +22,14 @@ with st.expander("📘 Показать таблицу стратегий"):
 
 # параметры
 option_type = st.selectbox('Тип опциона', ['Long Call', 'Short Call', 'Long Put', 'Short Put'])
-strike_price = st.number_input('Цена страйка', value=None, placeholder='110000', help='Цена, от которой опцион находится в прибыли')
-current_price = st.number_input('Текущая цена', value=None, placeholder='105000')
+strike_price = st.number_input('Цена страйка', help='Цена, от которой опцион находится в прибыли')
+current_price = st.number_input('Текущая цена')
 if option_type.startswith('Long'):
     premium_label = 'Оплаченная премия (оплата авансом)'
 else:
     premium_label = 'Полученная премия (заработок авансом)'
 
-premium = st.number_input(premium_label, value=None, placeholder='100' help='Премия — это стоимость опциона. Оплата если long, получаете в short')
+premium = st.number_input(premium_label, help='Премия — это стоимость опциона. Оплата если long, получаете в short')
 
 iv = st.slider('Implied Volatility (IV %)', 1, 300, 80) / 100
 
