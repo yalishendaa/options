@@ -8,6 +8,18 @@ from scipy.stats import norm
 import math
 
 st.set_page_config(page_title="Options PnL Calculator", layout="centered")
+
+st.markdown("""
+    <style>
+    .main .block-container {
+        max-width: 860px;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
 st.image("notionlp.png", width=312)
 st.title('Options PnL Calculator ')
 
@@ -19,6 +31,14 @@ strategy_data = pd.DataFrame([
     {"Стратегия": "Short Put", "Ожидание": "Рост или стабильность", "Когда использовать": "Получить актив по сниженной цене или заработать на премии", "Макс. профит": "Премия", "Макс. убыток": "Страйк – премия", "Характеристика": "Продажа риска, альтернатива лимитному ордеру"}
 ])
 with st.expander("📘 Показать таблицу стратегий"):
+    st.markdown("""
+        <style>
+        div[data-testid="stDataFrame"] {
+            max-width: none !important;
+            width: 100% !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
     st.dataframe(strategy_data, use_container_width=True)
 
 # параметры
