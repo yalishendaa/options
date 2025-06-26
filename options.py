@@ -7,7 +7,7 @@ from datetime import date
 from scipy.stats import norm
 import math
 
-st.set_page_config(page_title="Options PnL Calculator", layout="wide")
+st.set_page_config(page_title="Options PnL Calculator")
 st.title('Options PnL Calculator ')
 
 # таблица стратегий
@@ -62,9 +62,12 @@ with st.expander("Что такое Implied Volatility (IV)?"):
 
 """)
 
+col5, col6 = st.columns(2)
 
-expiry_date = st.date_input('Дата экспирации', value=date.today(), help='Дата истечения опциона')
-today = st.date_input('Сегодняшняя цена', value=date.today())
+with col5:
+    expiry_date = st.date_input('Дата экспирации', value=date.today(), help='Дата истечения опциона')
+with col6:
+    today = st.date_input('Сегодняшняя цена', value=date.today())
 
 # расчёт по нажатию
 if st.button("🧮 Рассчитать PnL"):
