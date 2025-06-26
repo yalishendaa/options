@@ -12,7 +12,7 @@ st.set_page_config(page_title="Options PnL Calculator")
 st.markdown("""
     <style>
     .main .block-container {
-        max-width: 860px;
+        max-width: 1000px;
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
@@ -57,7 +57,7 @@ with st.expander("📘 Показать таблицу стратегий", expa
                 color: #ddd;
             }}
             tbody {{
-                background-color: #1e1e1e;
+                background-color: transparent;
             }}
         </style>
         {styled_df}
