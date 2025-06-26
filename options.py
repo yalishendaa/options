@@ -79,7 +79,7 @@ with col3:
         premium_label = 'Оплаченная премия (оплата авансом)'
     else:
         premium_label = 'Полученная премия (заработок авансом)'
-    premium = st.number_input(premium_label, help='Премия — это стоимость опциона. Оплата если long, получаете в short')
+    premium = st.number_input(premium_label, help='Премия — это стоимость опциона. Платите если long, получаете если short')
 
 with col4:
     iv = st.slider('Implied Volatility (IV %)', 1, 300, 80, help='Ожидаемая волатильность') / 100
