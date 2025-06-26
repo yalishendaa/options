@@ -34,13 +34,29 @@ strategy_data = pd.DataFrame([
 show_table = st.toggle("📘 Показать таблицу стратегий")
 
 if show_table:
+    styled_df = strategy_data.to_html(index=False, escape=False)
+
     st.markdown("""
-        <div style="position: relative; left: -5vw; width: 95vw; max-width: none;">
-    """, unsafe_allow_html=True)
-
-    st.dataframe(strategy_data, use_container_width=True)
-
-    st.markdown("</div>", unsafe_allow_html=True)
+        <div style="width: 100%; overflow-x: auto; margin-top: 10px; margin-bottom: 20px;">
+            <style>
+                table {
+                    width: 100% !important;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 8px 12px;
+                    border: 1px solid #444;
+                    text-align: left;
+                }
+                thead {
+                    background-color: #222;
+                    color: #fff;
+                }
+                tbody tr:nth-child(even) {
+                    background-color: #2a2a2a;
+                }
+            </style>
+            """ + styled_df + "</div>", unsafe_allow_html=True)
 
 # параметры
 option_type = st.selectbox('Тип опциона', ['Long Call', 'Short Call', 'Long Put', 'Short Put'])
