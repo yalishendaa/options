@@ -8,6 +8,18 @@ from scipy.stats import norm
 import math
 
 st.set_page_config(page_title="Options PnL Calculator")
+
+# ограничить ширину приложения
+st.markdown("""
+    <style>
+    .main .block-container {
+        max-width: 860px;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 st.title('Options PnL Calculator ')
 
 # таблица стратегий
@@ -67,7 +79,7 @@ col5, col6 = st.columns(2)
 with col5:
     expiry_date = st.date_input('Дата экспирации', value=date.today(), help='Дата истечения опциона')
 with col6:
-    today = st.date_input('Сегодняшняя цена', value=date.today())
+    today = st.date_input('Сегодняшняя дата', value=date.today())
 
 # расчёт по нажатию
 if st.button("🧮 Рассчитать PnL"):
