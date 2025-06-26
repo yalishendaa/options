@@ -22,16 +22,24 @@ with st.expander("📘 Показать таблицу стратегий"):
 
 # параметры
 option_type = st.selectbox('Тип опциона', ['Long Call', 'Short Call', 'Long Put', 'Short Put'])
-strike_price = st.number_input('Цена страйка', help='Цена, от которой опцион находится в прибыли')
-current_price = st.number_input('Текущая цена')
-if option_type.startswith('Long'):
-    premium_label = 'Оплаченная премия (оплата авансом)'
-else:
-    premium_label = 'Полученная премия (заработок авансом)'
 
-premium = st.number_input(premium_label, help='Премия — это стоимость опциона. Оплата если long, получаете в short')
+col1, col2 = st.columns(2)
+with col1:
+    strike_price = st.number_input('Цена страйка', help='Цена, от которой опцион находится в прибыли')
+with col2:
+    current_price = st.number_input('Текущая цена')
 
-iv = st.slider('Implied Volatility (IV %)', 1, 300, 80) / 100
+col3, col4 = st.columns(2)
+with col3:
+    if option_type.startswith('Long'):
+        premium_label = 'Оплаченная премия (оплата авансом)'
+    else:
+        premium_label = 'Полученная премия (заработок авансом)'
+    premium = st.number_input(premium_label, help='Премия — это стоимость опциона. Оплата если long, получаете в short')
+
+with col4:
+    iv = st.slider('Implied Volatility (IV %)', 1, 300, 80, help='Ожидаемая волатильность') / 100
+
 
 with st.expander("Что такое Implied Volatility (IV)?"):
     st.markdown("""
