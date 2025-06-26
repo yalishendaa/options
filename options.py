@@ -7,19 +7,8 @@ from datetime import date
 from scipy.stats import norm
 import math
 
-st.set_page_config(page_title="Options PnL Calculator")
-
-# ограничить ширину приложения
-st.markdown("""
-    <style>
-    .main .block-container {
-        max-width: 860px;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
+st.set_page_config(page_title="Options PnL Calculator", layout="centered")
+st.image("notionlp.png", width=312)
 st.title('Options PnL Calculator ')
 
 # таблица стратегий
