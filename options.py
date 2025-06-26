@@ -11,11 +11,11 @@ st.set_page_config(page_title="Options PnL Calculator")
 
 st.markdown("""
     <style>
-    .main .block-container {
-        max-width: 1000px;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
+        .main .block-container {
+            max-width: 1000px !important;
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
